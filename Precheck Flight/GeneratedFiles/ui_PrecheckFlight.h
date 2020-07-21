@@ -17,12 +17,9 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -49,20 +46,19 @@ public:
     QGroupBox *groupBox_4;
     QPushButton *beginButton;
     QTableWidget *tableWidget;
-    QMenuBar *menuBar;
-    QToolBar *mainToolBar;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *PrecheckFlightClass)
     {
         if (PrecheckFlightClass->objectName().isEmpty())
             PrecheckFlightClass->setObjectName(QString::fromUtf8("PrecheckFlightClass"));
-        PrecheckFlightClass->resize(600, 400);
+        PrecheckFlightClass->resize(587, 350);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PrecheckFlightClass->sizePolicy().hasHeightForWidth());
         PrecheckFlightClass->setSizePolicy(sizePolicy);
+        PrecheckFlightClass->setMinimumSize(QSize(587, 350));
+        PrecheckFlightClass->setMaximumSize(QSize(587, 350));
         PrecheckFlightClass->setUnifiedTitleAndToolBarOnMac(true);
         centralWidget = new QWidget(PrecheckFlightClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
@@ -161,18 +157,24 @@ public:
         groupBox_4->setFont(font);
         beginButton = new QPushButton(groupBox_4);
         beginButton->setObjectName(QString::fromUtf8("beginButton"));
-        beginButton->setGeometry(QRect(10, 170, 121, 23));
+        beginButton->setGeometry(QRect(10, 22, 21, 171));
         tableWidget = new QTableWidget(groupBox_4);
-        if (tableWidget->columnCount() < 3)
-            tableWidget->setColumnCount(3);
+        if (tableWidget->columnCount() < 4)
+            tableWidget->setColumnCount(4);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        __qtablewidgetitem->setTextAlignment(Qt::AlignCenter);
         tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        __qtablewidgetitem1->setTextAlignment(Qt::AlignCenter);
         tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        __qtablewidgetitem2->setTextAlignment(Qt::AlignCenter);
         tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        __qtablewidgetitem3->setTextAlignment(Qt::AlignCenter);
+        tableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
-        tableWidget->setGeometry(QRect(140, 10, 251, 181));
+        tableWidget->setGeometry(QRect(40, 20, 351, 171));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -186,16 +188,6 @@ public:
         tableWidget->horizontalHeader()->setDefaultSectionSize(50);
         tableWidget->horizontalHeader()->setStretchLastSection(true);
         PrecheckFlightClass->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(PrecheckFlightClass);
-        menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 600, 22));
-        PrecheckFlightClass->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(PrecheckFlightClass);
-        mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-        PrecheckFlightClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(PrecheckFlightClass);
-        statusBar->setObjectName(QString::fromUtf8("statusBar"));
-        PrecheckFlightClass->setStatusBar(statusBar);
 
         retranslateUi(PrecheckFlightClass);
 
@@ -216,13 +208,16 @@ public:
         pushButton_2->setText(QApplication::translate("PrecheckFlightClass", "\346\216\245\n"
 "\346\224\266", nullptr));
         groupBox_4->setTitle(QApplication::translate("PrecheckFlightClass", "\350\243\205\345\211\215\346\243\200\346\265\213", nullptr));
-        beginButton->setText(QApplication::translate("PrecheckFlightClass", "\345\274\200\345\247\213", nullptr));
+        beginButton->setText(QApplication::translate("PrecheckFlightClass", "\345\274\200\n"
+"\345\247\213", nullptr));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("PrecheckFlightClass", "\351\241\271\347\233\256", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("PrecheckFlightClass", "\347\212\266\346\200\201", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QApplication::translate("PrecheckFlightClass", "\344\277\241\346\201\257", nullptr));
+        ___qtablewidgetitem2->setText(QApplication::translate("PrecheckFlightClass", "\350\256\241\346\225\260", nullptr));
+        QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QApplication::translate("PrecheckFlightClass", "\344\277\241\346\201\257", nullptr));
     } // retranslateUi
 
 };

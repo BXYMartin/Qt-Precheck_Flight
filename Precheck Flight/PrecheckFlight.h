@@ -33,7 +33,7 @@ public slots:
 	void sendMessage();
 	void beginTest();
 	void endTest();
-	void receiveFromWorker(PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message);
+	void receiveFromWorker(QString trail, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message);
 	void printToConsole(QString content);
 	void printToOutput(QString content);
 

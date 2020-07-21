@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PrecheckFlight_t {
-    QByteArrayData data[16];
-    char stringdata0[201];
+    QByteArrayData data[17];
+    char stringdata0[207];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,21 +40,22 @@ QT_MOC_LITERAL(5, 46, 11), // "sendMessage"
 QT_MOC_LITERAL(6, 58, 9), // "beginTest"
 QT_MOC_LITERAL(7, 68, 7), // "endTest"
 QT_MOC_LITERAL(8, 76, 17), // "receiveFromWorker"
-QT_MOC_LITERAL(9, 94, 27), // "PrecheckStateMachine::State"
-QT_MOC_LITERAL(10, 122, 5), // "state"
-QT_MOC_LITERAL(11, 128, 28), // "PrecheckStateMachine::Status"
-QT_MOC_LITERAL(12, 157, 6), // "status"
-QT_MOC_LITERAL(13, 164, 7), // "message"
-QT_MOC_LITERAL(14, 172, 14), // "printToConsole"
-QT_MOC_LITERAL(15, 187, 13) // "printToOutput"
+QT_MOC_LITERAL(9, 94, 5), // "trail"
+QT_MOC_LITERAL(10, 100, 27), // "PrecheckStateMachine::State"
+QT_MOC_LITERAL(11, 128, 5), // "state"
+QT_MOC_LITERAL(12, 134, 28), // "PrecheckStateMachine::Status"
+QT_MOC_LITERAL(13, 163, 6), // "status"
+QT_MOC_LITERAL(14, 170, 7), // "message"
+QT_MOC_LITERAL(15, 178, 14), // "printToConsole"
+QT_MOC_LITERAL(16, 193, 13) // "printToOutput"
 
     },
     "PrecheckFlight\0sendToWorker\0\0content\0"
     "testComm\0sendMessage\0beginTest\0endTest\0"
-    "receiveFromWorker\0PrecheckStateMachine::State\0"
-    "state\0PrecheckStateMachine::Status\0"
-    "status\0message\0printToConsole\0"
-    "printToOutput"
+    "receiveFromWorker\0trail\0"
+    "PrecheckStateMachine::State\0state\0"
+    "PrecheckStateMachine::Status\0status\0"
+    "message\0printToConsole\0printToOutput"
 };
 #undef QT_MOC_LITERAL
 
@@ -79,9 +80,9 @@ static const uint qt_meta_data_PrecheckFlight[] = {
        5,    0,   58,    2, 0x0a /* Public */,
        6,    0,   59,    2, 0x0a /* Public */,
        7,    0,   60,    2, 0x0a /* Public */,
-       8,    3,   61,    2, 0x0a /* Public */,
-      14,    1,   68,    2, 0x0a /* Public */,
-      15,    1,   71,    2, 0x0a /* Public */,
+       8,    4,   61,    2, 0x0a /* Public */,
+      15,    1,   70,    2, 0x0a /* Public */,
+      16,    1,   73,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -91,7 +92,7 @@ static const uint qt_meta_data_PrecheckFlight[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 9, 0x80000000 | 11, QMetaType::QString,   10,   12,   13,
+    QMetaType::Void, QMetaType::QString, 0x80000000 | 10, 0x80000000 | 12, QMetaType::QString,    9,   11,   13,   14,
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void, QMetaType::QString,    3,
 
@@ -109,7 +110,7 @@ void PrecheckFlight::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 2: _t->sendMessage(); break;
         case 3: _t->beginTest(); break;
         case 4: _t->endTest(); break;
-        case 5: _t->receiveFromWorker((*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 5: _t->receiveFromWorker((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[2])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
         case 6: _t->printToConsole((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 7: _t->printToOutput((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;

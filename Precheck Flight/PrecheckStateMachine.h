@@ -1,5 +1,13 @@
 #pragma once
 
+#define ICON_PROCESSING	59
+#define ICON_FINISH		48
+#define ICON_FAILED		49
+#define ICON_BEGIN		7
+
+#include <QtWidgets/QMainWindow>
+#pragma execution_character_set("utf-8")
+
 class PrecheckStateMachine
 {
 public:
@@ -52,6 +60,27 @@ public:
 	State currentState()
 	{
 		return current;
+	}
+
+	static QString getStateText(State state)
+	{
+		switch (state)
+		{
+		case GND_IDLE:
+			return QString("空闲");
+		case GND_INIT:
+			return QString("地面等待");
+		case GND_TEST:
+			return QString("地面检测");
+		case PUBIT_RESULT:
+			return QString("PUBIT结果");
+		case PUBIT_CONNECT:
+			return QString("PUBIT接口");
+		case CHANNEL_LOGIC:
+			return QString("通道故障结果");
+		default:
+			return QString("空闲");
+		}
 	}
 
 private:

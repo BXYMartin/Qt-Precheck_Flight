@@ -19,7 +19,7 @@ PrecheckFlight::PrecheckFlight(QWidget *parent)
 	testComm();
 }
 
-void PrecheckFlight::receiveFromWorker(PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message)
+void PrecheckFlight::receiveFromWorker(QString trail, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message)
 {
 	switch (state)
 	{
@@ -33,9 +33,29 @@ void PrecheckFlight::receiveFromWorker(PrecheckStateMachine::State state, Preche
 			ui.tableWidget->insertRow(count);
 			count = ui.tableWidget->rowCount();
 		}
-		ui.tableWidget->setItem(state-1, 0, new QTableWidgetItem(machine->currentState())); // 项目
-		ui.tableWidget->setItem(state-1, 1, new QTableWidgetItem(status)); // 状态
-		ui.tableWidget->setItem(state-1, 2, new QTableWidgetItem(message)); // 信息
+		QTableWidgetItem* status_item = new QTableWidgetItem;
+		switch (status) 
+		{
+		case PrecheckStateMachine::BEGIN:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_BEGIN));
+			break;
+		case PrecheckStateMachine::FAILED:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_FAILED)); 
+			break;
+		case PrecheckStateMachine::FINISH:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_FINISH)); 
+			break;
+		case PrecheckStateMachine::PROCESSING:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_PROCESSING));
+			break;
+		default:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_BEGIN));
+			break;
+		}
+		ui.tableWidget->setItem(state - 1, 0, new QTableWidgetItem(PrecheckStateMachine::getStateText(state))); // 项目
+		ui.tableWidget->setItem(state - 1, 1, status_item); // 状态
+		ui.tableWidget->setItem(state - 1, 2, new QTableWidgetItem(trail)); // 计数
+		ui.tableWidget->setItem(state - 1, 3, new QTableWidgetItem(message)); // 信息
 		
 		break;
 	}
@@ -50,11 +70,11 @@ void PrecheckFlight::beginTest()
 		ui.sendButton->setEnabled(false);
 		ui.testButton->setEnabled(false);
 		ui.beginButton->setEnabled(false);
-		worker = new PrecheckThread(machine, portCommunicator);
+		worker = new PrecheckThread(machine, portCommunicator, 5);
 		qRegisterMetaType<PrecheckStateMachine::Status>("PrecheckStateMachine::Status");
 		qRegisterMetaType<PrecheckStateMachine::State>("PrecheckStateMachine::State");
 		sender = connect(this, SIGNAL(sendToWorker(QString)), worker, SLOT(receiveFromPort(QString)));
-		receiver = connect(worker, SIGNAL(sendToWindow(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)), this, SLOT(receiveFromWorker(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)));
+		receiver = connect(worker, SIGNAL(sendToWindow(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)), this, SLOT(receiveFromWorker(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)));
 		worker->start();
 	}
 	else
