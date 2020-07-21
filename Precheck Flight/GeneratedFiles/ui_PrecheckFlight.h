@@ -14,12 +14,14 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -44,6 +46,9 @@ public:
     QPlainTextEdit *receiveComm;
     QPushButton *sendButton;
     QPushButton *pushButton_2;
+    QGroupBox *groupBox_4;
+    QPushButton *beginButton;
+    QTableWidget *tableWidget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -137,7 +142,7 @@ public:
         sendComm->setGeometry(QRect(40, 20, 151, 81));
         receiveComm = new QPlainTextEdit(groupBox_3);
         receiveComm->setObjectName(QString::fromUtf8("receiveComm"));
-        receiveComm->setGeometry(QRect(230, 20, 151, 81));
+        receiveComm->setGeometry(QRect(240, 20, 151, 81));
         receiveComm->setReadOnly(true);
         sendButton = new QPushButton(groupBox_3);
         sendButton->setObjectName(QString::fromUtf8("sendButton"));
@@ -147,9 +152,39 @@ public:
         pushButton_2 = new QPushButton(groupBox_3);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
         pushButton_2->setEnabled(false);
-        pushButton_2->setGeometry(QRect(200, 20, 21, 81));
+        pushButton_2->setGeometry(QRect(210, 20, 21, 81));
         pushButton_2->setAcceptDrops(false);
         pushButton_2->setFlat(false);
+        groupBox_4 = new QGroupBox(centralWidget);
+        groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
+        groupBox_4->setGeometry(QRect(180, 130, 401, 211));
+        groupBox_4->setFont(font);
+        beginButton = new QPushButton(groupBox_4);
+        beginButton->setObjectName(QString::fromUtf8("beginButton"));
+        beginButton->setGeometry(QRect(10, 170, 121, 23));
+        tableWidget = new QTableWidget(groupBox_4);
+        if (tableWidget->columnCount() < 3)
+            tableWidget->setColumnCount(3);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+        tableWidget->setGeometry(QRect(140, 10, 251, 181));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
+        tableWidget->setSizePolicy(sizePolicy1);
+        tableWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
+        tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        tableWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+        tableWidget->horizontalHeader()->setMinimumSectionSize(12);
+        tableWidget->horizontalHeader()->setDefaultSectionSize(50);
+        tableWidget->horizontalHeader()->setStretchLastSection(true);
         PrecheckFlightClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(PrecheckFlightClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -180,6 +215,14 @@ public:
 "\351\200\201", nullptr));
         pushButton_2->setText(QApplication::translate("PrecheckFlightClass", "\346\216\245\n"
 "\346\224\266", nullptr));
+        groupBox_4->setTitle(QApplication::translate("PrecheckFlightClass", "\350\243\205\345\211\215\346\243\200\346\265\213", nullptr));
+        beginButton->setText(QApplication::translate("PrecheckFlightClass", "\345\274\200\345\247\213", nullptr));
+        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QApplication::translate("PrecheckFlightClass", "\351\241\271\347\233\256", nullptr));
+        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QApplication::translate("PrecheckFlightClass", "\347\212\266\346\200\201", nullptr));
+        QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QApplication::translate("PrecheckFlightClass", "\344\277\241\346\201\257", nullptr));
     } // retranslateUi
 
 };

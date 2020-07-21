@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'PrecheckFlightnljeBA.ui'
+** Form generated from reading UI file 'PrecheckFlightpRTAeV.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef PRECHECKFLIGHTNLJEBA_H
-#define PRECHECKFLIGHTNLJEBA_H
+#ifndef PRECHECKFLIGHTPRTAEV_H
+#define PRECHECKFLIGHTPRTAEV_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -47,7 +47,7 @@ public:
     QPushButton *sendButton;
     QPushButton *pushButton_2;
     QGroupBox *groupBox_4;
-    QPushButton *pushButton;
+    QPushButton *beginButton;
     QTableWidget *tableWidget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -159,9 +159,9 @@ public:
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
         groupBox_4->setGeometry(QRect(180, 130, 401, 211));
         groupBox_4->setFont(font);
-        pushButton = new QPushButton(groupBox_4);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(10, 170, 121, 23));
+        beginButton = new QPushButton(groupBox_4);
+        beginButton->setObjectName(QString::fromUtf8("beginButton"));
+        beginButton->setGeometry(QRect(10, 170, 121, 23));
         tableWidget = new QTableWidget(groupBox_4);
         if (tableWidget->columnCount() < 3)
             tableWidget->setColumnCount(3);
@@ -216,7 +216,7 @@ public:
         pushButton_2->setText(QApplication::translate("PrecheckFlightClass", "\346\216\245\n"
 "\346\224\266", nullptr));
         groupBox_4->setTitle(QApplication::translate("PrecheckFlightClass", "\350\243\205\345\211\215\346\243\200\346\265\213", nullptr));
-        pushButton->setText(QApplication::translate("PrecheckFlightClass", "\345\274\200\345\247\213", nullptr));
+        beginButton->setText(QApplication::translate("PrecheckFlightClass", "\345\274\200\345\247\213", nullptr));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("PrecheckFlightClass", "\351\241\271\347\233\256", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
@@ -233,4 +233,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // PRECHECKFLIGHTNLJEBA_H
+#endif // PRECHECKFLIGHTPRTAEV_H

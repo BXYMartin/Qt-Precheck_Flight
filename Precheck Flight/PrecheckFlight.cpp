@@ -1,5 +1,7 @@
 #include "PrecheckFlight.h"
+#include "PrecheckThread.h"
 #include "serial_port.h"
+
 
 #pragma execution_character_set("utf-8")
 
@@ -9,10 +11,67 @@ PrecheckFlight::PrecheckFlight(QWidget *parent)
 	ui.setupUi(this);
 	portHandler = new PortHandler(this);
 	portCommunicator = new CSerialPort(portHandler);
+	machine = new PrecheckStateMachine();
 	connect(ui.testButton, SIGNAL(clicked()), this, SLOT(testComm()));
 	connect(ui.sendButton, SIGNAL(clicked()), this, SLOT(sendMessage()));
+	connect(ui.beginButton, SIGNAL(clicked()), this, SLOT(beginTest()));
 	connect(portHandler, SIGNAL(printToConsole(QString)), this, SLOT(printToOutput(QString)));
 	testComm();
+}
+
+void PrecheckFlight::receiveFromWorker(PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message)
+{
+	switch (state)
+	{
+	case PrecheckStateMachine::GND_IDLE:
+		endTest();
+		break;
+	default:
+		int count = ui.tableWidget->rowCount();
+		while (count < state)
+		{
+			ui.tableWidget->insertRow(count);
+			count = ui.tableWidget->rowCount();
+		}
+		ui.tableWidget->setItem(state-1, 0, new QTableWidgetItem(machine->currentState())); // 项目
+		ui.tableWidget->setItem(state-1, 1, new QTableWidgetItem(status)); // 状态
+		ui.tableWidget->setItem(state-1, 2, new QTableWidgetItem(message)); // 信息
+		
+		break;
+	}
+}
+
+void PrecheckFlight::beginTest()
+{
+	machine = new PrecheckStateMachine();
+	if (portCommunicator->Open(ui.commBox->currentData().toInt(), ui.bitBox->currentData().toInt()))
+	{
+		printToConsole("端口" + ui.commBox->currentData().toString() + ", 波特率" + ui.bitBox->currentData().toString() + ", 连接成功~");
+		ui.sendButton->setEnabled(false);
+		ui.testButton->setEnabled(false);
+		ui.beginButton->setEnabled(false);
+		worker = new PrecheckThread(machine, portCommunicator);
+		qRegisterMetaType<PrecheckStateMachine::Status>("PrecheckStateMachine::Status");
+		qRegisterMetaType<PrecheckStateMachine::State>("PrecheckStateMachine::State");
+		sender = connect(this, SIGNAL(sendToWorker(QString)), worker, SLOT(receiveFromPort(QString)));
+		receiver = connect(worker, SIGNAL(sendToWindow(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)), this, SLOT(receiveFromWorker(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)));
+		worker->start();
+	}
+	else
+	{
+		printToConsole("端口打开失败, 请重试!");
+		portCommunicator->Close();
+	}
+	
+}
+
+void PrecheckFlight::endTest()
+{
+	disconnect(sender);
+	disconnect(receiver);
+	ui.testButton->setEnabled(true);
+	ui.sendButton->setEnabled(true);
+	ui.beginButton->setEnabled(true);
 }
 
 PrecheckFlight::~PrecheckFlight()
@@ -30,7 +89,15 @@ void PrecheckFlight::printToConsole(QString content)
 void PrecheckFlight::printToOutput(QString content)
 {
 	QString current = ui.receiveComm->toPlainText();
-	ui.receiveComm->setPlainText(current + content);
+	switch (machine->currentState()) {
+	case PrecheckStateMachine::GND_IDLE:
+		ui.receiveComm->setPlainText(current + content);
+		break;
+	default:
+		emit(sendToWorker(content));
+		break;
+	}
+	
 }
 
 void PrecheckFlight::clearConsole()

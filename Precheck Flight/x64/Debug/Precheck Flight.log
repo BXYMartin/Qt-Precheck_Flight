@@ -1,2 +1,8 @@
-﻿  PrecheckFlight.cpp
+﻿  Moc'ing PrecheckFlight.h...
+  Moc'ing PrecheckThread.h...
+  moc_PrecheckFlight.cpp
+  moc_PrecheckThread.cpp
+  PrecheckFlight.cpp
+  PrecheckThread.cpp
+  main.cpp
   Precheck Flight.vcxproj -> C:\Users\白心宇\source\repos\Precheck Flight\x64\Debug\Precheck Flight.exe

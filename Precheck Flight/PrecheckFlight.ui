@@ -278,7 +278,7 @@
     <property name="title">
      <string>装前检测</string>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="beginButton">
      <property name="geometry">
       <rect>
        <x>10</x>
