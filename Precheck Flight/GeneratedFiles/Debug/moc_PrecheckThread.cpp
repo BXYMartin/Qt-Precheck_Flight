@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PrecheckThread_t {
-    QByteArrayData data[11];
-    char stringdata0[137];
+    QByteArrayData data[14];
+    char stringdata0[158];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,13 +41,17 @@ QT_MOC_LITERAL(6, 69, 28), // "PrecheckStateMachine::Status"
 QT_MOC_LITERAL(7, 98, 6), // "status"
 QT_MOC_LITERAL(8, 105, 7), // "message"
 QT_MOC_LITERAL(9, 113, 15), // "receiveFromPort"
-QT_MOC_LITERAL(10, 129, 7) // "content"
+QT_MOC_LITERAL(10, 129, 8), // "uint8_t*"
+QT_MOC_LITERAL(11, 138, 7), // "content"
+QT_MOC_LITERAL(12, 146, 6), // "size_t"
+QT_MOC_LITERAL(13, 153, 4) // "size"
 
     },
     "PrecheckThread\0sendToWindow\0\0count\0"
     "PrecheckStateMachine::State\0state\0"
     "PrecheckStateMachine::Status\0status\0"
-    "message\0receiveFromPort\0content"
+    "message\0receiveFromPort\0uint8_t*\0"
+    "content\0size_t\0size"
 };
 #undef QT_MOC_LITERAL
 
@@ -68,13 +72,13 @@ static const uint qt_meta_data_PrecheckThread[] = {
        1,    4,   24,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       9,    1,   33,    2, 0x0a /* Public */,
+       9,    2,   33,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, 0x80000000 | 4, 0x80000000 | 6, QMetaType::QString,    3,    5,    7,    8,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString,   10,
+    QMetaType::Void, 0x80000000 | 10, 0x80000000 | 12,   11,   13,
 
        0        // eod
 };
@@ -86,7 +90,7 @@ void PrecheckThread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->sendToWindow((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[2])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
-        case 1: _t->receiveFromPort((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->receiveFromPort((*reinterpret_cast< uint8_t*(*)>(_a[1])),(*reinterpret_cast< size_t(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

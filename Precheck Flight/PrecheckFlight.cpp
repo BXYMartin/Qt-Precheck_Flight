@@ -15,7 +15,9 @@ PrecheckFlight::PrecheckFlight(QWidget *parent)
 	connect(ui.testButton, SIGNAL(clicked()), this, SLOT(testComm()));
 	connect(ui.sendButton, SIGNAL(clicked()), this, SLOT(sendMessage()));
 	connect(ui.beginButton, SIGNAL(clicked()), this, SLOT(beginTest()));
-	connect(portHandler, SIGNAL(printToConsole(QString)), this, SLOT(printToOutput(QString)));
+	qRegisterMetaType<size_t>("size_t");
+	qRegisterMetaType<uint8_t*>("uint8_t*");
+	connect(portHandler, SIGNAL(printToConsole(uint8_t*, size_t)), this, SLOT(printToOutput(uint8_t*, size_t)));
 	testComm();
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui.digitBox->addItem("ASCII", 0);
@@ -80,7 +82,9 @@ void PrecheckFlight::beginTest()
 		worker = new PrecheckThread(machine, portCommunicator, 5);
 		qRegisterMetaType<PrecheckStateMachine::Status>("PrecheckStateMachine::Status");
 		qRegisterMetaType<PrecheckStateMachine::State>("PrecheckStateMachine::State");
-		sender = connect(this, SIGNAL(sendToWorker(QString)), worker, SLOT(receiveFromPort(QString)));
+		qRegisterMetaType<size_t>("size_t");
+		qRegisterMetaType<uint8_t*>("uint8_t*");
+		sender = connect(this, SIGNAL(sendToWorker(uint8_t*, size_t)), worker, SLOT(receiveFromPort(uint8_t*, size_t)));
 		receiver = connect(worker, SIGNAL(sendToWindow(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)), this, SLOT(receiveFromWorker(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)));
 		worker->start();
 	}
@@ -114,15 +118,15 @@ void PrecheckFlight::printToConsole(QString content)
 	ui.consoleWindow->setPlainText(current + content + '\n');
 }
 
-void PrecheckFlight::printToOutput(QString content)
+void PrecheckFlight::printToOutput(uint8_t* content, size_t size)
 {
 	QString current = ui.receiveComm->toPlainText();
 	switch (machine->currentState()) {
 	case PrecheckStateMachine::GND_IDLE:
-		ui.receiveComm->setPlainText(current + content);
+		ui.receiveComm->setPlainText(current + QString((char*)content));
 		break;
 	default:
-		emit(sendToWorker(content));
+		emit(sendToWorker(content, size));
 		break;
 	}
 	

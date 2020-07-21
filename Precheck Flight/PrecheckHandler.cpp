@@ -5,8 +5,9 @@ PrecheckHandler::PrecheckHandler()
 
 }
 
-bool PrecheckHandler::checkFrame(PrecheckStateMachine::State state, char* frame)
+bool PrecheckHandler::checkFrame(PrecheckStateMachine::State state, uint8_t* frame)
 {
+	return true;
 	// 检查副帧头部
 	for (int i = 0; i < 4; i++)
 		if (frame[i*64] != 0xEB || frame[i*64+1] != 0x90)
@@ -56,7 +57,7 @@ bool PrecheckHandler::checkFrame(PrecheckStateMachine::State state, char* frame)
 	return true;
 }
 
-void PrecheckHandler::generateFrame(PrecheckStateMachine::State state, char* frame)
+void PrecheckHandler::generateFrame(PrecheckStateMachine::State state, uint8_t* frame)
 {
 	for (int i = 0; i < 64; i++)
 		frame[i] = 0x00;
@@ -65,13 +66,13 @@ void PrecheckHandler::generateFrame(PrecheckStateMachine::State state, char* fra
 	fillInstruction(state, frame);
 }
 
-void PrecheckHandler::fillHeader(char* frame)
+void PrecheckHandler::fillHeader(uint8_t* frame)
 {
 	frame[0x00] = 0xEB;
 	frame[0x01] = 0x90;
 }
 
-void PrecheckHandler::fillType(char* frame)
+void PrecheckHandler::fillType(uint8_t* frame)
 {
 	frame[0x02] = 0xFF; // 地检
 	frame[0x03] = 0x00;
@@ -79,7 +80,7 @@ void PrecheckHandler::fillType(char* frame)
 	frame[0x05] = 0xEC;
 }
 
-void PrecheckHandler::fillInstruction(PrecheckStateMachine::State state, char* frame)
+void PrecheckHandler::fillInstruction(PrecheckStateMachine::State state, uint8_t* frame)
 {
 	switch (state)
 	{

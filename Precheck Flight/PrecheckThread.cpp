@@ -16,9 +16,15 @@ void PrecheckThread::closeThread()
 	stopThread = true;
 }
 
-void PrecheckThread::receiveFromPort(QString content)
+void PrecheckThread::receiveFromPort(uint8_t* content, size_t size)
 {
-	frames[position++] = *content.toUtf8().data();
+	mutex.lock();
+	for (size_t i = 0; i < size; i++)
+	{
+		frames[position + i] = content[i];
+	}
+	position += size;
+	mutex.unlock();
 }
 
 QString PrecheckThread::trailBuilder(int i, int total)
@@ -55,7 +61,7 @@ void PrecheckThread::run()
 			if (stopThread)
 				break;
 			position = 0;
-			char message[64];
+			uint8_t message[64];
 			handler->generateFrame(machine->currentState(), message);
 			if (portCommunicator->Write((uint8_t*)message, 64))
 			{
@@ -65,7 +71,7 @@ void PrecheckThread::run()
 			}
 			if (machine->currentState() == PrecheckStateMachine::GND_INIT)
 			{
-				for (int timer = 60; timer >= 0; timer--)
+				for (int timer = 10; timer >= 0; timer--)
 				{
 					if (stopThread)
 						break;
@@ -78,8 +84,12 @@ void PrecheckThread::run()
 			{
 				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("等待返回帧中")));
 				// 临时使用输入帧大小替代，真实情况为 256
-				while (position < 64) { sleep(1); }
-				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("接收到返回帧 ") + QString(frames)));
+				int timeout = 15;
+				mutex.lock();
+				int current_position = position;
+				mutex.unlock();
+				while (current_position < 64 && timeout > 0) { sleep(1); timeout--; mutex.lock(); current_position = position; mutex.unlock(); }
+				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("接收到返回帧 ") + QString((char*)frames)));
 				if (!handler->checkFrame(machine->currentState(), frames))
 				{
 					passed = false;
