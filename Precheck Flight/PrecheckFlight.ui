@@ -211,7 +211,7 @@
        <x>40</x>
        <y>20</y>
        <width>151</width>
-       <height>81</height>
+       <height>61</height>
       </rect>
      </property>
     </widget>
@@ -269,6 +269,21 @@
      </property>
      <property name="flat">
       <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="digitBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>80</y>
+       <width>151</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier New</family>
+      </font>
      </property>
     </widget>
    </widget>

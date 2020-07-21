@@ -17,6 +17,8 @@ PrecheckFlight::PrecheckFlight(QWidget *parent)
 	connect(ui.beginButton, SIGNAL(clicked()), this, SLOT(beginTest()));
 	connect(portHandler, SIGNAL(printToConsole(QString)), this, SLOT(printToOutput(QString)));
 	testComm();
+	ui.tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui.digitBox->addItem("ASCII", 0);
 }
 
 void PrecheckFlight::receiveFromWorker(QString trail, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message)
@@ -63,13 +65,18 @@ void PrecheckFlight::receiveFromWorker(QString trail, PrecheckStateMachine::Stat
 
 void PrecheckFlight::beginTest()
 {
+	if (worker && worker->isRunning()) 
+	{
+		worker->closeThread();
+		return;
+	}
 	machine = new PrecheckStateMachine();
 	if (portCommunicator->Open(ui.commBox->currentData().toInt(), ui.bitBox->currentData().toInt()))
 	{
 		printToConsole("端口" + ui.commBox->currentData().toString() + ", 波特率" + ui.bitBox->currentData().toString() + ", 连接成功~");
 		ui.sendButton->setEnabled(false);
 		ui.testButton->setEnabled(false);
-		ui.beginButton->setEnabled(false);
+		ui.beginButton->setText(tr("取\n消"));
 		worker = new PrecheckThread(machine, portCommunicator, 5);
 		qRegisterMetaType<PrecheckStateMachine::Status>("PrecheckStateMachine::Status");
 		qRegisterMetaType<PrecheckStateMachine::State>("PrecheckStateMachine::State");
@@ -91,7 +98,8 @@ void PrecheckFlight::endTest()
 	disconnect(receiver);
 	ui.testButton->setEnabled(true);
 	ui.sendButton->setEnabled(true);
-	ui.beginButton->setEnabled(true);
+	ui.beginButton->setText(tr("开\n始"));
+	printToConsole("测试完成 = =");
 }
 
 PrecheckFlight::~PrecheckFlight()
@@ -131,7 +139,7 @@ void PrecheckFlight::sendMessage()
 	if (portCommunicator->Open(ui.commBox->currentData().toInt(), ui.bitBox->currentData().toInt()))
 	{
 		printToConsole("端口" + ui.commBox->currentData().toString() + ", 波特率" + ui.bitBox->currentData().toString() + ", 连接成功~");
-		portCommunicator->Write((uint8_t*) ui.sendComm->toPlainText().toUtf8().data(), strlen(ui.sendComm->toPlainText().toUtf8().data()), false);
+		portCommunicator->Write((uint8_t*)ui.sendComm->toPlainText().toUtf8().data(), strlen(ui.sendComm->toPlainText().toUtf8().data()), false);
 		ui.sendComm->clear();
 		//portHandler->DataHandle((uint8_t*)ui.sendComm->toPlainText().toUtf8().data(), strlen(ui.sendComm->toPlainText().toUtf8().data()));
 		//

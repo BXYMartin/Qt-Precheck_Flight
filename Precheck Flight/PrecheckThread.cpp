@@ -42,11 +42,18 @@ void PrecheckThread::run()
 		default:
 			break;
 		}
+		if (stopThread)
+		{
+			emit(sendToWindow(trailBuilder(0, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("检查被跳过")));
+			continue;
+		}
 		bool passed = true;
 		emit(sendToWindow(trailBuilder(0, total), machine->currentState(), PrecheckStateMachine::BEGIN, QString("开始检查...")));
 		
 		for (int i = 0; i < total; i++)
 		{
+			if (stopThread)
+				break;
 			position = 0;
 			char message[64];
 			handler->generateFrame(machine->currentState(), message);
@@ -60,6 +67,8 @@ void PrecheckThread::run()
 			{
 				for (int timer = 60; timer >= 0; timer--)
 				{
+					if (stopThread)
+						break;
 					emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("等待 ") + QString::number(timer) + QString(" 秒")));
 					sleep(1);
 				}
@@ -81,11 +90,11 @@ void PrecheckThread::run()
 		}
 		if (passed)
 		{
-			emit(sendToWindow(trailBuilder(trail, total), machine->currentState(), PrecheckStateMachine::FINISH, QString("测试通过")));
+			emit(sendToWindow(trailBuilder(total, total), machine->currentState(), PrecheckStateMachine::FINISH, QString("测试通过")));
 		}
 		else
 		{
-			emit(sendToWindow(trailBuilder(trail, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("检查出错")));
+			emit(sendToWindow(trailBuilder(total, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("检查出错")));
 		}
 	}
 	delete handler;

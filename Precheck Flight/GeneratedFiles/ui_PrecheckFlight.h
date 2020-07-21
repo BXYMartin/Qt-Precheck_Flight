@@ -43,6 +43,7 @@ public:
     QPlainTextEdit *receiveComm;
     QPushButton *sendButton;
     QPushButton *pushButton_2;
+    QComboBox *digitBox;
     QGroupBox *groupBox_4;
     QPushButton *beginButton;
     QTableWidget *tableWidget;
@@ -135,7 +136,7 @@ public:
         groupBox_3->setFont(font);
         sendComm = new QPlainTextEdit(groupBox_3);
         sendComm->setObjectName(QString::fromUtf8("sendComm"));
-        sendComm->setGeometry(QRect(40, 20, 151, 81));
+        sendComm->setGeometry(QRect(40, 20, 151, 61));
         receiveComm = new QPlainTextEdit(groupBox_3);
         receiveComm->setObjectName(QString::fromUtf8("receiveComm"));
         receiveComm->setGeometry(QRect(240, 20, 151, 81));
@@ -151,6 +152,10 @@ public:
         pushButton_2->setGeometry(QRect(210, 20, 21, 81));
         pushButton_2->setAcceptDrops(false);
         pushButton_2->setFlat(false);
+        digitBox = new QComboBox(groupBox_3);
+        digitBox->setObjectName(QString::fromUtf8("digitBox"));
+        digitBox->setGeometry(QRect(40, 80, 151, 22));
+        digitBox->setFont(font2);
         groupBox_4 = new QGroupBox(centralWidget);
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
         groupBox_4->setGeometry(QRect(180, 130, 401, 211));
