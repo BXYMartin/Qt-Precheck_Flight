@@ -47,19 +47,19 @@ public:
     QGroupBox *groupBox_4;
     QPushButton *beginButton;
     QTableWidget *tableWidget;
+    QTableWidget *detailWidget;
 
     void setupUi(QMainWindow *PrecheckFlightClass)
     {
         if (PrecheckFlightClass->objectName().isEmpty())
             PrecheckFlightClass->setObjectName(QString::fromUtf8("PrecheckFlightClass"));
-        PrecheckFlightClass->resize(587, 350);
+        PrecheckFlightClass->resize(760, 499);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PrecheckFlightClass->sizePolicy().hasHeightForWidth());
         PrecheckFlightClass->setSizePolicy(sizePolicy);
-        PrecheckFlightClass->setMinimumSize(QSize(587, 350));
-        PrecheckFlightClass->setMaximumSize(QSize(587, 350));
+        PrecheckFlightClass->setMinimumSize(QSize(0, 0));
         PrecheckFlightClass->setUnifiedTitleAndToolBarOnMac(true);
         centralWidget = new QWidget(PrecheckFlightClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
@@ -118,11 +118,11 @@ public:
         testButton->setGeometry(QRect(40, 80, 75, 23));
         groupBox_2 = new QGroupBox(centralWidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(10, 130, 161, 211));
+        groupBox_2->setGeometry(QRect(590, 10, 161, 481));
         groupBox_2->setFont(font);
         consoleWindow = new QPlainTextEdit(groupBox_2);
         consoleWindow->setObjectName(QString::fromUtf8("consoleWindow"));
-        consoleWindow->setGeometry(QRect(10, 20, 141, 181));
+        consoleWindow->setGeometry(QRect(10, 20, 141, 451));
         QFont font3;
         font3.setFamily(QString::fromUtf8("Courier New"));
         font3.setPointSize(10);
@@ -158,11 +158,11 @@ public:
         digitBox->setFont(font2);
         groupBox_4 = new QGroupBox(centralWidget);
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
-        groupBox_4->setGeometry(QRect(180, 130, 401, 211));
+        groupBox_4->setGeometry(QRect(10, 130, 571, 361));
         groupBox_4->setFont(font);
         beginButton = new QPushButton(groupBox_4);
         beginButton->setObjectName(QString::fromUtf8("beginButton"));
-        beginButton->setGeometry(QRect(10, 22, 21, 171));
+        beginButton->setGeometry(QRect(10, 22, 21, 111));
         tableWidget = new QTableWidget(groupBox_4);
         if (tableWidget->columnCount() < 4)
             tableWidget->setColumnCount(4);
@@ -179,7 +179,7 @@ public:
         __qtablewidgetitem3->setTextAlignment(Qt::AlignCenter);
         tableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
-        tableWidget->setGeometry(QRect(40, 20, 351, 171));
+        tableWidget->setGeometry(QRect(40, 20, 521, 111));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -192,6 +192,28 @@ public:
         tableWidget->horizontalHeader()->setMinimumSectionSize(12);
         tableWidget->horizontalHeader()->setDefaultSectionSize(50);
         tableWidget->horizontalHeader()->setStretchLastSection(true);
+        tableWidget->verticalHeader()->setMinimumSectionSize(15);
+        tableWidget->verticalHeader()->setDefaultSectionSize(20);
+        detailWidget = new QTableWidget(groupBox_4);
+        if (detailWidget->columnCount() < 4)
+            detailWidget->setColumnCount(4);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        __qtablewidgetitem4->setTextAlignment(Qt::AlignCenter);
+        detailWidget->setHorizontalHeaderItem(0, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        __qtablewidgetitem5->setTextAlignment(Qt::AlignCenter);
+        detailWidget->setHorizontalHeaderItem(1, __qtablewidgetitem5);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        __qtablewidgetitem6->setTextAlignment(Qt::AlignCenter);
+        detailWidget->setHorizontalHeaderItem(2, __qtablewidgetitem6);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        __qtablewidgetitem7->setTextAlignment(Qt::AlignCenter);
+        detailWidget->setHorizontalHeaderItem(3, __qtablewidgetitem7);
+        detailWidget->setObjectName(QString::fromUtf8("detailWidget"));
+        detailWidget->setGeometry(QRect(10, 140, 551, 211));
+        detailWidget->horizontalHeader()->setStretchLastSection(true);
+        detailWidget->verticalHeader()->setMinimumSectionSize(15);
+        detailWidget->verticalHeader()->setDefaultSectionSize(20);
         PrecheckFlightClass->setCentralWidget(centralWidget);
 
         retranslateUi(PrecheckFlightClass);
@@ -223,6 +245,14 @@ public:
         ___qtablewidgetitem2->setText(QApplication::translate("PrecheckFlightClass", "\350\256\241\346\225\260", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidget->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QApplication::translate("PrecheckFlightClass", "\344\277\241\346\201\257", nullptr));
+        QTableWidgetItem *___qtablewidgetitem4 = detailWidget->horizontalHeaderItem(0);
+        ___qtablewidgetitem4->setText(QApplication::translate("PrecheckFlightClass", "\351\241\271\347\233\256", nullptr));
+        QTableWidgetItem *___qtablewidgetitem5 = detailWidget->horizontalHeaderItem(1);
+        ___qtablewidgetitem5->setText(QApplication::translate("PrecheckFlightClass", "\345\212\237\350\203\275", nullptr));
+        QTableWidgetItem *___qtablewidgetitem6 = detailWidget->horizontalHeaderItem(2);
+        ___qtablewidgetitem6->setText(QApplication::translate("PrecheckFlightClass", "\347\212\266\346\200\201", nullptr));
+        QTableWidgetItem *___qtablewidgetitem7 = detailWidget->horizontalHeaderItem(3);
+        ___qtablewidgetitem7->setText(QApplication::translate("PrecheckFlightClass", "\350\257\246\347\273\206\344\277\241\346\201\257", nullptr));
     } // retranslateUi
 
 };

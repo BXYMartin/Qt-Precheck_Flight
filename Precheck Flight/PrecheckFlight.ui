@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>587</width>
-    <height>350</height>
+    <width>760</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,14 +19,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>587</width>
-    <height>350</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>587</width>
-    <height>350</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -146,10 +140,10 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>130</y>
+      <x>590</x>
+      <y>10</y>
       <width>161</width>
-      <height>211</height>
+      <height>481</height>
      </rect>
     </property>
     <property name="font">
@@ -167,7 +161,7 @@
        <x>10</x>
        <y>20</y>
        <width>141</width>
-       <height>181</height>
+       <height>451</height>
       </rect>
      </property>
      <property name="font">
@@ -290,10 +284,10 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>10</x>
       <y>130</y>
-      <width>401</width>
-      <height>211</height>
+      <width>571</width>
+      <height>361</height>
      </rect>
     </property>
     <property name="font">
@@ -311,7 +305,7 @@
        <x>10</x>
        <y>22</y>
        <width>21</width>
-       <height>171</height>
+       <height>111</height>
       </rect>
      </property>
      <property name="text">
@@ -324,8 +318,8 @@
       <rect>
        <x>40</x>
        <y>20</y>
-       <width>351</width>
-       <height>171</height>
+       <width>521</width>
+       <height>111</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -355,6 +349,12 @@
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
      </attribute>
+     <attribute name="verticalHeaderMinimumSectionSize">
+      <number>15</number>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>20</number>
+     </attribute>
      <column>
       <property name="text">
        <string>项目</string>
@@ -382,6 +382,57 @@
      <column>
       <property name="text">
        <string>信息</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignCenter</set>
+      </property>
+     </column>
+    </widget>
+    <widget class="QTableWidget" name="detailWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>551</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderMinimumSectionSize">
+      <number>15</number>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>20</number>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>项目</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>功能</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>状态</string>
+      </property>
+      <property name="textAlignment">
+       <set>AlignCenter</set>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>详细信息</string>
       </property>
       <property name="textAlignment">
        <set>AlignCenter</set>

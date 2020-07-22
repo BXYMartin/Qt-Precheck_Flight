@@ -12,9 +12,12 @@ class PrecheckThread : public QThread
 
 public:
 	PrecheckThread(PrecheckStateMachine* state, CSerialPort* port, int num);
-	void closeThread();
+	void closeThread(); 
+	volatile bool stopThread;
 	PrecheckStateMachine* machine;
 	CSerialPort* portCommunicator;
+	void receiveDetailsFromHandler(int state, int status, char* function, char* message);
+
 
 
 public slots:
@@ -22,13 +25,14 @@ public slots:
 
 signals:
 	void sendToWindow(QString count, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message);
+	void sendDetailsToWindow(PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString function, QString message);
 
 protected:
 	virtual void run();
 
 private:
 	QString PrecheckThread::trailBuilder(int i, int total);
-	volatile bool stopThread;
+	
 	uint8_t frames[256];
 	QMutex mutex;
 	int position = 0;

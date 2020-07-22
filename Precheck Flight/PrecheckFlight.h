@@ -21,10 +21,11 @@ private:
 	CSerialPort* portCommunicator;
 	PortHandler* portHandler;
 	PrecheckStateMachine* machine;
-	PrecheckThread* worker;
+	PrecheckThread* worker = 0;
 	Ui::PrecheckFlightClass ui;
 	QMetaObject::Connection sender;
 	QMetaObject::Connection receiver;
+	QMetaObject::Connection printer;
 	void initCommPort();
 	
 
@@ -36,6 +37,7 @@ public slots:
 	void receiveFromWorker(QString trail, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message);
 	void printToConsole(QString content);
 	void printToOutput(uint8_t* content, size_t size);
+	void receiveDetailsFromWorker(PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString function, QString message);
 
 signals:
 	void sendToWorker(uint8_t* content, size_t size);

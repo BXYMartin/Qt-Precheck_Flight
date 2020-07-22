@@ -32,9 +32,11 @@ QString PrecheckThread::trailBuilder(int i, int total)
 	return QString::number(i) + QString("/") + QString::number(total);
 }
 
+
+
 void PrecheckThread::run()
 {
-	PrecheckHandler* handler = new PrecheckHandler();
+	PrecheckHandler* handler = new PrecheckHandler(this);
 	while (machine->nextState())
 	{
 		int total = trail;
@@ -92,6 +94,7 @@ void PrecheckThread::run()
 				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("接收到返回帧 ") + QString((char*)frames)));
 				if (!handler->checkFrame(machine->currentState(), frames))
 				{
+					//emit(sendDetailsToWindow(machine->currentState(), PrecheckStateMachine::FAILED, function, message));
 					passed = false;
 				}
 				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("处理完成")));

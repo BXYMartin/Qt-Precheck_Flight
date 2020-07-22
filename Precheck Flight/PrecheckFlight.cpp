@@ -67,7 +67,7 @@ void PrecheckFlight::receiveFromWorker(QString trail, PrecheckStateMachine::Stat
 
 void PrecheckFlight::beginTest()
 {
-	if (worker && worker->isRunning()) 
+	if (worker && !worker->stopThread) 
 	{
 		worker->closeThread();
 		return;
@@ -86,6 +86,7 @@ void PrecheckFlight::beginTest()
 		qRegisterMetaType<uint8_t*>("uint8_t*");
 		sender = connect(this, SIGNAL(sendToWorker(uint8_t*, size_t)), worker, SLOT(receiveFromPort(uint8_t*, size_t)));
 		receiver = connect(worker, SIGNAL(sendToWindow(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)), this, SLOT(receiveFromWorker(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)));
+		printer = connect(worker, SIGNAL(sendDetailsToWindow(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString, QString)), this, SLOT(receiveDetailsFromWorker(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString, QString)));
 		worker->start();
 	}
 	else
@@ -96,10 +97,40 @@ void PrecheckFlight::beginTest()
 	
 }
 
+void PrecheckFlight::receiveDetailsFromWorker(PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString function, QString message)
+{
+		int count = ui.detailWidget->rowCount();
+		ui.detailWidget->insertRow(count);
+		QTableWidgetItem* status_item = new QTableWidgetItem;
+		switch (status)
+		{
+		case PrecheckStateMachine::BEGIN:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_BEGIN));
+			break;
+		case PrecheckStateMachine::FAILED:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_FAILED));
+			break;
+		case PrecheckStateMachine::FINISH:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_FINISH));
+			break;
+		case PrecheckStateMachine::PROCESSING:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_PROCESSING));
+			break;
+		default:
+			status_item->setIcon(QApplication::style()->standardIcon((QStyle::StandardPixmap) ICON_BEGIN));
+			break;
+		}
+		ui.detailWidget->setItem(count, 0, new QTableWidgetItem(PrecheckStateMachine::getStateText(state))); // 项目
+		ui.detailWidget->setItem(count, 2, status_item); // 状态
+		ui.detailWidget->setItem(count, 1, new QTableWidgetItem(function)); // 功能
+		ui.detailWidget->setItem(count, 3, new QTableWidgetItem(message)); // 信息
+}
+
 void PrecheckFlight::endTest()
 {
 	disconnect(sender);
 	disconnect(receiver);
+	disconnect(printer);
 	ui.testButton->setEnabled(true);
 	ui.sendButton->setEnabled(true);
 	ui.beginButton->setText(tr("开\n始"));
