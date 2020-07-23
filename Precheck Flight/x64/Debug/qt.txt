@@ -1,1 +1,0 @@
-Uic'ing PrecheckFlight.ui...;C:\Qt\Qt5.12.6\5.12.6\msvc2017_64\bin\uic.exe;"C:\Users\白心宇\source\repos\Precheck Flight\Precheck Flight\PrecheckFlight.ui" -o ".\GeneratedFiles\ui_PrecheckFlight.h"

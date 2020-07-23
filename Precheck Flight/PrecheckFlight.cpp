@@ -82,7 +82,7 @@ void PrecheckFlight::beginTest()
 		ui.beginButton->setText(tr("È¡\nÏû"));
 		ui.detailWidget->setRowCount(0);
 		ui.detailWidget->clearContents();
-		worker = new PrecheckThread(machine, portCommunicator, 5);
+		worker = new PrecheckThread(machine, portCommunicator, 1);
 		qRegisterMetaType<PrecheckStateMachine::Status>("PrecheckStateMachine::Status");
 		qRegisterMetaType<PrecheckStateMachine::State>("PrecheckStateMachine::State");
 		qRegisterMetaType<size_t>("size_t");
