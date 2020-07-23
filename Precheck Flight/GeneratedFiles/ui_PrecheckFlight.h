@@ -252,9 +252,9 @@ public:
         QTableWidgetItem *___qtablewidgetitem5 = detailWidget->horizontalHeaderItem(1);
         ___qtablewidgetitem5->setText(QApplication::translate("PrecheckFlightClass", "\345\212\237\350\203\275", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = detailWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem6->setText(QApplication::translate("PrecheckFlightClass", "\350\257\246\347\273\206\344\277\241\346\201\257", nullptr));
+        ___qtablewidgetitem6->setText(QApplication::translate("PrecheckFlightClass", "\347\212\266\346\200\201", nullptr));
         QTableWidgetItem *___qtablewidgetitem7 = detailWidget->horizontalHeaderItem(3);
-        ___qtablewidgetitem7->setText(QApplication::translate("PrecheckFlightClass", "\347\212\266\346\200\201", nullptr));
+        ___qtablewidgetitem7->setText(QApplication::translate("PrecheckFlightClass", "\350\257\246\347\273\206\344\277\241\346\201\257", nullptr));
     } // retranslateUi
 
 };

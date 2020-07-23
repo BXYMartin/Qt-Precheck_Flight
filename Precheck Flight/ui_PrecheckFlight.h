@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'PrecheckFlightzsekbN.ui'
+** Form generated from reading UI file 'PrecheckFlightcjvkAd.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef PRECHECKFLIGHTZSEKBN_H
-#define PRECHECKFLIGHTZSEKBN_H
+#ifndef PRECHECKFLIGHTCJVKAD_H
+#define PRECHECKFLIGHTCJVKAD_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -252,9 +252,9 @@ public:
         QTableWidgetItem *___qtablewidgetitem5 = detailWidget->horizontalHeaderItem(1);
         ___qtablewidgetitem5->setText(QApplication::translate("PrecheckFlightClass", "\345\212\237\350\203\275", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = detailWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem6->setText(QApplication::translate("PrecheckFlightClass", "\350\257\246\347\273\206\344\277\241\346\201\257", nullptr));
+        ___qtablewidgetitem6->setText(QApplication::translate("PrecheckFlightClass", "\347\212\266\346\200\201", nullptr));
         QTableWidgetItem *___qtablewidgetitem7 = detailWidget->horizontalHeaderItem(3);
-        ___qtablewidgetitem7->setText(QApplication::translate("PrecheckFlightClass", "\347\212\266\346\200\201", nullptr));
+        ___qtablewidgetitem7->setText(QApplication::translate("PrecheckFlightClass", "\350\257\246\347\273\206\344\277\241\346\201\257", nullptr));
     } // retranslateUi
 
 };
@@ -265,4 +265,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // PRECHECKFLIGHTZSEKBN_H
+#endif // PRECHECKFLIGHTCJVKAD_H

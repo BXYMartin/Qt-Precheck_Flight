@@ -60,7 +60,7 @@ void PrecheckFlight::receiveFromWorker(QString trail, PrecheckStateMachine::Stat
 		ui.tableWidget->setItem(state - 1, 1, status_item); // 状态
 		ui.tableWidget->setItem(state - 1, 2, new QTableWidgetItem(trail)); // 计数
 		ui.tableWidget->setItem(state - 1, 3, new QTableWidgetItem(message)); // 信息
-		
+		ui.tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
 		break;
 	}
 }
@@ -125,9 +125,9 @@ void PrecheckFlight::receiveDetailsFromWorker(PrecheckStateMachine::State state,
 		}
 		ui.detailWidget->setItem(count, 0, new QTableWidgetItem(PrecheckStateMachine::getStateText(state))); // 项目
 		ui.detailWidget->setItem(count, 1, new QTableWidgetItem(function)); // 功能
-		ui.detailWidget->setItem(count, 2, new QTableWidgetItem(message)); // 信息
-		ui.detailWidget->setItem(count, 3, status_item); // 状态
-		ui.detailWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+		ui.detailWidget->setItem(count, 3, new QTableWidgetItem(message)); // 信息
+		ui.detailWidget->setItem(count, 2, status_item); // 状态
+		ui.detailWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
 }
 
 void PrecheckFlight::endTest()
