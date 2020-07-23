@@ -1,2 +1,5 @@
-﻿  PrecheckFlight.cpp
+﻿  Uic'ing PrecheckFlight.ui...
+  moc_PrecheckFlight.cpp
+  PrecheckFlight.cpp
+  main.cpp
   Precheck Flight.vcxproj -> C:\Users\白心宇\source\repos\Precheck Flight\x64\Debug\Precheck Flight.exe

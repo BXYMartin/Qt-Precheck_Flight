@@ -70,6 +70,7 @@ void PrecheckFlight::beginTest()
 	if (worker && !worker->stopThread) 
 	{
 		worker->closeThread();
+		ui.beginButton->setEnabled(false);
 		return;
 	}
 	machine = new PrecheckStateMachine();
@@ -123,9 +124,10 @@ void PrecheckFlight::receiveDetailsFromWorker(PrecheckStateMachine::State state,
 			break;
 		}
 		ui.detailWidget->setItem(count, 0, new QTableWidgetItem(PrecheckStateMachine::getStateText(state))); // 项目
-		ui.detailWidget->setItem(count, 2, status_item); // 状态
 		ui.detailWidget->setItem(count, 1, new QTableWidgetItem(function)); // 功能
-		ui.detailWidget->setItem(count, 3, new QTableWidgetItem(message)); // 信息
+		ui.detailWidget->setItem(count, 2, new QTableWidgetItem(message)); // 信息
+		ui.detailWidget->setItem(count, 3, status_item); // 状态
+		ui.detailWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void PrecheckFlight::endTest()
@@ -135,6 +137,7 @@ void PrecheckFlight::endTest()
 	disconnect(printer);
 	ui.testButton->setEnabled(true);
 	ui.sendButton->setEnabled(true);
+	ui.beginButton->setEnabled(true);
 	ui.beginButton->setText(tr("开\n始"));
 	printToConsole("测试完成 = =");
 }

@@ -56,6 +56,7 @@ void PrecheckThread::run()
 			continue;
 		}
 		bool passed = true;
+		bool elapsed = false;
 		emit(sendToWindow(trailBuilder(0, total), machine->currentState(), PrecheckStateMachine::BEGIN, QString("开始检查...")));
 		
 		for (int i = 0; i < total; i++)
@@ -91,13 +92,23 @@ void PrecheckThread::run()
 				int current_position = position;
 				mutex.unlock();
 				while (current_position < 64 && timeout > 0) { sleep(1); timeout--; mutex.lock(); current_position = position; mutex.unlock(); }
-				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("接收到返回帧 ") + QString((char*)frames)));
-				if (!handler->checkFrame(machine->currentState(), frames))
+				if (timeout < 0)
 				{
-					//emit(sendDetailsToWindow(machine->currentState(), PrecheckStateMachine::FAILED, function, message));
 					passed = false;
+					elapsed = true;
+					break;
 				}
-				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("处理完成")));
+				else
+				{
+					emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("接收到返回帧 ") + QString((char*)frames)));
+					if (!handler->checkFrame(machine->currentState(), frames))
+					{
+						//emit(sendDetailsToWindow(machine->currentState(), PrecheckStateMachine::FAILED, function, message));
+						passed = false;
+					}
+					emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("处理完成")));
+				}
+				
 			}
 			
 		}
@@ -107,7 +118,10 @@ void PrecheckThread::run()
 		}
 		else
 		{
-			emit(sendToWindow(trailBuilder(total, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("检查出错")));
+			if (elapsed)
+				emit(sendToWindow(trailBuilder(total, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("等待返回超时")));
+			else
+				emit(sendToWindow(trailBuilder(total, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("检查出错")));
 		}
 	}
 	delete handler;
