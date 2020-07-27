@@ -117,6 +117,7 @@ void PrecheckHandler::fillInstruction(PrecheckStateMachine::State state, uint8_t
 		frame[0x0F] = 0xEC;
 		frame[0x10] = 0xEC;
 		frame[0x12] = 0x33;
+		break;
 	default:
 		frame[0x0E] = 0xEC;
 		frame[0x0F] = 0xEC;

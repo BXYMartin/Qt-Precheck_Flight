@@ -27,6 +27,9 @@ void PrecheckFlight::receiveFromWorker(QString trail, PrecheckStateMachine::Stat
 {
 	switch (state)
 	{
+	case -1:
+		printToConsole(message);
+		break;
 	case PrecheckStateMachine::GND_IDLE:
 		endTest();
 		break;
@@ -135,6 +138,7 @@ void PrecheckFlight::endTest()
 	disconnect(sender);
 	disconnect(receiver);
 	disconnect(printer);
+	delete worker;
 	ui.testButton->setEnabled(true);
 	ui.sendButton->setEnabled(true);
 	ui.beginButton->setEnabled(true);
@@ -157,11 +161,17 @@ void PrecheckFlight::printToConsole(QString content)
 void PrecheckFlight::printToOutput(uint8_t* content, size_t size)
 {
 	QString current = ui.receiveComm->toPlainText();
+	QString console = ui.consoleWindow->toPlainText();
+	
 	switch (machine->currentState()) {
 	case PrecheckStateMachine::GND_IDLE:
 		ui.receiveComm->setPlainText(current + QString((char*)content));
 		break;
 	default:
+		char container[1024];
+		for (int i = 0;i < size; i++)
+			sprintf(&container[2*i], "%02x", content[i]);
+		ui.consoleWindow->setPlainText(console + container);
 		emit(sendToWorker(content, size));
 		break;
 	}
@@ -235,11 +245,6 @@ void PrecheckFlight::initCommPort()
 	}
 	if (flag)
 	{
-		ui.bitBox->addItem("600", 600);
-		ui.bitBox->addItem("1200", 1200);
-		ui.bitBox->addItem("2400", 2400);
-		ui.bitBox->addItem("4800", 4800);
-		ui.bitBox->addItem("9600", 9600);
 		ui.bitBox->addItem("38400", 38400);
 		ui.bitBox->addItem("57600", 57600);
 		ui.bitBox->addItem("115200", 115200);
