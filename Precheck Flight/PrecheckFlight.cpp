@@ -2,7 +2,6 @@
 #include "PrecheckThread.h"
 #include "serial_port.h"
 
-
 #pragma execution_character_set("utf-8")
 
 PrecheckFlight::PrecheckFlight(QWidget *parent)
@@ -165,13 +164,15 @@ void PrecheckFlight::printToOutput(uint8_t* content, size_t size)
 	
 	switch (machine->currentState()) {
 	case PrecheckStateMachine::GND_IDLE:
+		return;
 		ui.receiveComm->setPlainText(current + QString((char*)content));
 		break;
 	default:
-		char container[1024];
-		for (int i = 0;i < size; i++)
-			sprintf(&container[2*i], "%02x", content[i]);
-		ui.consoleWindow->setPlainText(console + container);
+		for (int i = 0; i < size; i++)
+			if (content[i] == 0x78)
+				printToConsole("Found 4 Frame");
+			else if (content[i] == 0x81);
+				//printToConsole("Found Empty Frame");
 		emit(sendToWorker(content, size));
 		break;
 	}
@@ -245,13 +246,19 @@ void PrecheckFlight::initCommPort()
 	}
 	if (flag)
 	{
-		ui.bitBox->addItem("38400", 38400);
-		ui.bitBox->addItem("57600", 57600);
+		// ui.bitBox->addItem("38400", 38400);
+		// ui.bitBox->addItem("57600", 57600);
 		ui.bitBox->addItem("115200", 115200);
 		//	ui.bitBox->addItem("230400", 230400);
 		//	ui.bitBox->addItem("460800", 460800);
 		printToConsole("发现可用端口~!");
+		ui.beginButton->setEnabled(true);
+		ui.sendButton->setEnabled(true);
 	}
 	else
+	{
+		ui.beginButton->setEnabled(false);
+		ui.sendButton->setEnabled(false);
 		printToConsole("暂无可用端口 QAQ");
+	}
 }

@@ -25,6 +25,12 @@ public:
 		PUBIT_CONNECT,
 		CHANNEL_LOGIC
 	} state;
+	enum Receive {
+		HEADER_0,
+		HEADER_1,
+		READY,
+		IDLE
+	};
 
 	PrecheckStateMachine(State init = GND_IDLE)
 	{

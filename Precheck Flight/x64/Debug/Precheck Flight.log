@@ -1,2 +1,6 @@
-﻿  PrecheckFlight.cpp
+﻿  PrecheckHandler.cpp
+  PrecheckThread.cpp
+PrecheckHandler.cpp(67): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PrecheckHandler.cpp)
+PrecheckHandler.cpp(69): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PrecheckHandler.cpp)
+PrecheckHandler.cpp(73): warning C4819: 该文件包含不能在当前代码页(0)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PrecheckHandler.cpp)
   Precheck Flight.vcxproj -> C:\Users\白心宇\source\repos\Precheck Flight\x64\Debug\Precheck Flight.exe

@@ -33,7 +33,9 @@ protected:
 private:
 	QString PrecheckThread::trailBuilder(int i, int total);
 	
-	uint8_t frames[256];
+	uint8_t frames[64];
+	bool ready;
+	PrecheckStateMachine::Receive receive = PrecheckStateMachine::IDLE;
 	QMutex mutex;
 	int position = 0;
 	int trail = 1;

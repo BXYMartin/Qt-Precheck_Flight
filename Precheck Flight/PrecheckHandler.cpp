@@ -2,6 +2,26 @@
 
 #pragma execution_character_set("utf-8")
 
+unsigned short CRC16_XMODEM(uint8_t *puchMsg, unsigned int usDataLen)
+{
+	unsigned short wCRCin = 0x0000;
+	unsigned short wCPoly = 0x1021;
+	unsigned char wChar = 0;
+
+	while (usDataLen--)
+	{
+		wChar = *(puchMsg++);
+		wCRCin ^= (wChar << 8);
+		for (int i = 0; i < 8; i++)
+		{
+			if (wCRCin & 0x8000)
+				wCRCin = (wCRCin << 1) ^ wCPoly;
+			else
+				wCRCin = wCRCin << 1;
+		}
+	}
+	return (wCRCin);
+}
 
 PrecheckHandler::PrecheckHandler(PrecheckThread* callback)
 {
@@ -29,14 +49,14 @@ bool PrecheckHandler::checkFrame(PrecheckStateMachine::State state, uint8_t* fra
 
 	char message[128];
 	// 检查副帧头部
-	for (int i = 0; i < 4; i++)
+	/*for (int i = 0; i < 4; i++)
 	{
 		sprintf(message, "第 %d 副帧头部返回 0x%02x 0x%02x 应为 0xEB 0x90", i + 1, frame[i * 64], frame[i * 64 + 1]);
 		genReport(frame[i * 64 + 1], 0b01101111, state, "副帧头检查", message, &passed);
 		genReport(frame[i * 64], 0b00010100, state, "副帧头检查", message, &passed);
-	}
+	}*/
 		
-	int offset = 64 * 3 - 1; // 适应标准中的从 1 计数
+	int offset = -1; // 适应标准中的从 1 计数
 	switch (state)
 	{
 	case PrecheckStateMachine::GND_INIT:
@@ -74,6 +94,8 @@ void PrecheckHandler::generateFrame(PrecheckStateMachine::State state, uint8_t* 
 	fillHeader(frame);
 	fillType(frame);
 	fillInstruction(state, frame);
+	frame[0x3E] = CRC16_XMODEM(frame, 62) & 0b0000000011111111;
+	frame[0x3F] = CRC16_XMODEM(frame, 62) >> 8;
 }
 
 void PrecheckHandler::fillHeader(uint8_t* frame)

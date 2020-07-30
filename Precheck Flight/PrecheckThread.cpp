@@ -18,13 +18,61 @@ void PrecheckThread::closeThread()
 
 void PrecheckThread::receiveFromPort(uint8_t* content, size_t size)
 {
-	mutex.lock();
-	for (size_t i = 0; i < size; i++)
-	{
-		frames[position + i] = content[i];
-	}
-	position += size;
-	mutex.unlock();
+		mutex.lock();
+		for (size_t i = 0; i < size; i++)
+		{
+			switch (receive)
+			{
+			case PrecheckStateMachine::READY:
+				if (position >= 63)
+				{
+					ready = true;
+					receive = PrecheckStateMachine::IDLE;
+				}
+				frames[position] = content[i];
+				break;
+			case PrecheckStateMachine::IDLE:
+				position = 0;
+				if (content[i] == 0xEB)
+				{
+					receive = PrecheckStateMachine::HEADER_0;
+					frames[position] = content[i];
+				}
+				else
+				{
+					receive = PrecheckStateMachine::IDLE;
+				}
+				break;
+			case PrecheckStateMachine::HEADER_0:
+				if (content[i] == 0x90)
+				{
+					receive = PrecheckStateMachine::HEADER_1;
+					frames[position] = content[i];
+				}
+				else
+				{
+					receive = PrecheckStateMachine::IDLE;
+				}
+				break;
+			case PrecheckStateMachine::HEADER_1:
+				if (content[i] == 0x78)
+				{
+					receive = PrecheckStateMachine::READY;
+					frames[position] = content[i];
+				}
+				else
+				{
+					receive = PrecheckStateMachine::IDLE;
+				}
+				break;
+			default:
+				receive = PrecheckStateMachine::IDLE;
+				position = -1;
+				break;
+			}
+			position++;
+		}
+		mutex.unlock();
 }
 
 QString PrecheckThread::trailBuilder(int i, int total)
@@ -63,9 +111,17 @@ void PrecheckThread::run()
 		{
 			if (stopThread)
 				break;
-			position = 0;
+			mutex.lock();
+			ready = false;
+			mutex.unlock();
 			uint8_t message[64];
 			handler->generateFrame(machine->currentState(), message);
+			char container[64 * 2 + 1];
+			for (int i = 0; i < 64; i++)
+			{
+				sprintf(&container[2 * i], "%02x", message[i]);
+			}
+			emit(sendToWindow(trailBuilder(0, 0), (PrecheckStateMachine::State) -1, PrecheckStateMachine::FINISH, QString(container)));
 			if (portCommunicator->Write((uint8_t*)message, 64))
 			{
 				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("发送帧出错")));
@@ -74,7 +130,7 @@ void PrecheckThread::run()
 			}
 			if (machine->currentState() == PrecheckStateMachine::GND_INIT)
 			{
-				for (int timer = 10; timer >= 0; timer--)
+				for (int timer = 60; timer >= 0; timer--)
 				{
 					if (stopThread)
 						break;
@@ -89,9 +145,9 @@ void PrecheckThread::run()
 				// 临时使用输入帧大小替代，真实情况为 256
 				int timeout = 15;
 				mutex.lock();
-				int current_position = position;
+				int current_position = ready;
 				mutex.unlock();
-				while (current_position < 64 && timeout > 0) { sleep(1); timeout--; mutex.lock(); current_position = position; mutex.unlock(); }
+				while (!current_position && timeout > 0) { sleep(1); timeout--; mutex.lock(); current_position = ready; mutex.unlock(); }
 				if (timeout < 0)
 				{
 					passed = false;
