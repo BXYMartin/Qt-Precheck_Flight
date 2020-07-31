@@ -16,63 +16,70 @@ void PrecheckThread::closeThread()
 	stopThread = true;
 }
 
-void PrecheckThread::receiveFromPort(uint8_t* content, size_t size)
+void PrecheckThread::receiveFromPort(uint8_t content, size_t size)
 {
-		mutex.lock();
-		for (size_t i = 0; i < size; i++)
+	mutex.lock();
+	if (ready)
+	{
+		receive = PrecheckStateMachine::IDLE;
+	}
+	else
+	{
+		switch (receive)
 		{
-			switch (receive)
+		case PrecheckStateMachine::READY:
+			if (position >= 63)
 			{
-			case PrecheckStateMachine::READY:
-				if (position >= 63)
-				{
-					ready = true;
-					receive = PrecheckStateMachine::IDLE;
-				}
-				frames[position] = content[i];
-				break;
-			case PrecheckStateMachine::IDLE:
-				position = 0;
-				if (content[i] == 0xEB)
-				{
-					receive = PrecheckStateMachine::HEADER_0;
-					frames[position] = content[i];
-				}
-				else
-				{
-					receive = PrecheckStateMachine::IDLE;
-				}
-				break;
-			case PrecheckStateMachine::HEADER_0:
-				if (content[i] == 0x90)
-				{
-					receive = PrecheckStateMachine::HEADER_1;
-					frames[position] = content[i];
-				}
-				else
-				{
-					receive = PrecheckStateMachine::IDLE;
-				}
-				break;
-			case PrecheckStateMachine::HEADER_1:
-				if (content[i] == 0x78)
-				{
-					receive = PrecheckStateMachine::READY;
-					frames[position] = content[i];
-				}
-				else
-				{
-					receive = PrecheckStateMachine::IDLE;
-				}
-				break;
-			default:
+				ready = true;
+				emit(sendToWindow(trailBuilder(0, 0), (PrecheckStateMachine::State) - 1, PrecheckStateMachine::FINISH, QString("finished")));
 				receive = PrecheckStateMachine::IDLE;
-				position = -1;
-				break;
 			}
-			position++;
+			frames[position] = content;
+			break;
+		case PrecheckStateMachine::IDLE:
+			position = 0;
+			if (content == 0xEB)
+			{
+				receive = PrecheckStateMachine::HEADER_0;
+				frames[position] = content;
+			}
+			else
+			{
+				receive = PrecheckStateMachine::IDLE;
+			}
+			break;
+		case PrecheckStateMachine::HEADER_0:
+			if (content == 0x90)
+			{
+				emit(sendToWindow(trailBuilder(0, 0), (PrecheckStateMachine::State) - 1, PrecheckStateMachine::FINISH, QString("To Header 2")));
+				receive = PrecheckStateMachine::HEADER_1;
+				frames[position] = content;
+			}
+			else
+			{
+				receive = PrecheckStateMachine::IDLE;
+			}
+			break;
+		case PrecheckStateMachine::HEADER_1:
+			if (content == 0x78)
+			{
+				emit(sendToWindow(trailBuilder(0, 0), (PrecheckStateMachine::State) - 1, PrecheckStateMachine::FINISH, QString("To Receiving")));
+				receive = PrecheckStateMachine::READY;
+				frames[position] = content;
+			}
+			else
+			{
+				receive = PrecheckStateMachine::IDLE;
+			}
+			break;
+		default:
+			receive = PrecheckStateMachine::IDLE;
+			break;
 		}
-		mutex.unlock();
+		position++;
+	}
+		
+	mutex.unlock();
 }
 
 QString PrecheckThread::trailBuilder(int i, int total)
@@ -111,9 +118,7 @@ void PrecheckThread::run()
 		{
 			if (stopThread)
 				break;
-			mutex.lock();
-			ready = false;
-			mutex.unlock();
+			
 			uint8_t message[64];
 			handler->generateFrame(machine->currentState(), message);
 			char container[64 * 2 + 1];
@@ -122,15 +127,17 @@ void PrecheckThread::run()
 				sprintf(&container[2 * i], "%02x", message[i]);
 			}
 			emit(sendToWindow(trailBuilder(0, 0), (PrecheckStateMachine::State) -1, PrecheckStateMachine::FINISH, QString(container)));
+			
 			if (portCommunicator->Write((uint8_t*)message, 64))
 			{
 				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::FAILED, QString("发送帧出错")));
 				passed = false;
+				ready = true;
 				break;
 			}
 			if (machine->currentState() == PrecheckStateMachine::GND_INIT)
 			{
-				for (int timer = 60; timer >= 0; timer--)
+				for (int timer = 5; timer >= 0; timer--)
 				{
 					if (stopThread)
 						break;
@@ -143,12 +150,13 @@ void PrecheckThread::run()
 			{
 				emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("等待返回帧中")));
 				// 临时使用输入帧大小替代，真实情况为 256
-				int timeout = 15;
+				int timeout = 30;
 				mutex.lock();
-				int current_position = ready;
+				ready = false;
+				bool current_position = ready;
 				mutex.unlock();
 				while (!current_position && timeout > 0) { sleep(1); timeout--; mutex.lock(); current_position = ready; mutex.unlock(); }
-				if (timeout < 0)
+				if (timeout <= 0)
 				{
 					passed = false;
 					elapsed = true;
@@ -156,6 +164,13 @@ void PrecheckThread::run()
 				}
 				else
 				{
+					char receiver[64 * 2 + 1];
+					for (int i = 0; i < 64; i++)
+					{
+						sprintf(&receiver[2 * i], "%02x", frames[i]);
+					}
+					emit(sendToWindow(trailBuilder(0, 0), (PrecheckStateMachine::State) - 1, PrecheckStateMachine::FINISH, QString(receiver)));
+
 					emit(sendToWindow(trailBuilder(i, total), machine->currentState(), PrecheckStateMachine::PROCESSING, QString("接收到返回帧 ") + QString((char*)frames)));
 					if (!handler->checkFrame(machine->currentState(), frames))
 					{

@@ -21,7 +21,7 @@ public:
 
 
 public slots:
-	void receiveFromPort(uint8_t* content, size_t size);
+	void receiveFromPort(uint8_t content, size_t size);
 
 signals:
 	void sendToWindow(QString count, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message);
@@ -34,7 +34,7 @@ private:
 	QString PrecheckThread::trailBuilder(int i, int total);
 	
 	uint8_t frames[64];
-	bool ready;
+	bool ready = true;
 	PrecheckStateMachine::Receive receive = PrecheckStateMachine::IDLE;
 	QMutex mutex;
 	int position = 0;

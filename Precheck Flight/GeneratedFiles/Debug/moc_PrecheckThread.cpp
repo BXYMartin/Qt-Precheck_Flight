@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PrecheckThread_t {
     QByteArrayData data[16];
-    char stringdata0[187];
+    char stringdata0[186];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,18 +43,18 @@ QT_MOC_LITERAL(8, 105, 7), // "message"
 QT_MOC_LITERAL(9, 113, 19), // "sendDetailsToWindow"
 QT_MOC_LITERAL(10, 133, 8), // "function"
 QT_MOC_LITERAL(11, 142, 15), // "receiveFromPort"
-QT_MOC_LITERAL(12, 158, 8), // "uint8_t*"
-QT_MOC_LITERAL(13, 167, 7), // "content"
-QT_MOC_LITERAL(14, 175, 6), // "size_t"
-QT_MOC_LITERAL(15, 182, 4) // "size"
+QT_MOC_LITERAL(12, 158, 7), // "uint8_t"
+QT_MOC_LITERAL(13, 166, 7), // "content"
+QT_MOC_LITERAL(14, 174, 6), // "size_t"
+QT_MOC_LITERAL(15, 181, 4) // "size"
 
     },
     "PrecheckThread\0sendToWindow\0\0count\0"
     "PrecheckStateMachine::State\0state\0"
     "PrecheckStateMachine::Status\0status\0"
     "message\0sendDetailsToWindow\0function\0"
-    "receiveFromPort\0uint8_t*\0content\0"
-    "size_t\0size"
+    "receiveFromPort\0uint8_t\0content\0size_t\0"
+    "size"
 };
 #undef QT_MOC_LITERAL
 
@@ -96,7 +96,7 @@ void PrecheckThread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         switch (_id) {
         case 0: _t->sendToWindow((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[2])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
         case 1: _t->sendDetailsToWindow((*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
-        case 2: _t->receiveFromPort((*reinterpret_cast< uint8_t*(*)>(_a[1])),(*reinterpret_cast< size_t(*)>(_a[2]))); break;
+        case 2: _t->receiveFromPort((*reinterpret_cast< uint8_t(*)>(_a[1])),(*reinterpret_cast< size_t(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

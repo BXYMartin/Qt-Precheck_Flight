@@ -36,11 +36,11 @@ public slots:
 	void endTest();
 	void receiveFromWorker(QString trail, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message);
 	void printToConsole(QString content);
-	void printToOutput(uint8_t* content, size_t size);
+	void printToOutput(uint8_t content, size_t size);
 	void receiveDetailsFromWorker(PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString function, QString message);
 
 signals:
-	void sendToWorker(uint8_t* content, size_t size);
+	void sendToWorker(uint8_t content, size_t size);
 };
 
 
@@ -57,11 +57,15 @@ public:
 
 	void DataHandle(uint8_t* data, size_t size)
 	{
-		emit(printToConsole(data, size));
+		for (int i = 0; i < size; i++)
+		{
+			emit(printToConsole(data[i], 1));
+		}
+		
 		return;
 	}
 
 	
 signals:
-	void printToConsole(uint8_t* content, size_t size);
+	void printToConsole(uint8_t content, size_t size);
 };

@@ -16,7 +16,7 @@ PrecheckFlight::PrecheckFlight(QWidget *parent)
 	connect(ui.beginButton, SIGNAL(clicked()), this, SLOT(beginTest()));
 	qRegisterMetaType<size_t>("size_t");
 	qRegisterMetaType<uint8_t*>("uint8_t*");
-	connect(portHandler, SIGNAL(printToConsole(uint8_t*, size_t)), this, SLOT(printToOutput(uint8_t*, size_t)));
+	connect(portHandler, SIGNAL(printToConsole(uint8_t, size_t)), this, SLOT(printToOutput(uint8_t, size_t)));
 	testComm();
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui.digitBox->addItem("ASCII", 0);
@@ -88,8 +88,9 @@ void PrecheckFlight::beginTest()
 		qRegisterMetaType<PrecheckStateMachine::Status>("PrecheckStateMachine::Status");
 		qRegisterMetaType<PrecheckStateMachine::State>("PrecheckStateMachine::State");
 		qRegisterMetaType<size_t>("size_t");
-		qRegisterMetaType<uint8_t*>("uint8_t*");
-		sender = connect(this, SIGNAL(sendToWorker(uint8_t*, size_t)), worker, SLOT(receiveFromPort(uint8_t*, size_t)));
+		qRegisterMetaType<uint8_t*>("uint8_t");
+		// sender = connect(portHandler, SIGNAL(printToConsole(uint8_t, size_t)), worker, SLOT(receiveFromPort(uint8_t, size_t)), Qt::QueuedConnection);
+		sender = connect(this, SIGNAL(sendToWorker(uint8_t, size_t)), worker, SLOT(receiveFromPort(uint8_t, size_t)));
 		receiver = connect(worker, SIGNAL(sendToWindow(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)), this, SLOT(receiveFromWorker(QString, PrecheckStateMachine::State, PrecheckStateMachine::Status, QString)));
 		printer = connect(worker, SIGNAL(sendDetailsToWindow(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString, QString)), this, SLOT(receiveDetailsFromWorker(PrecheckStateMachine::State, PrecheckStateMachine::Status, QString, QString)));
 		worker->start();
@@ -157,7 +158,7 @@ void PrecheckFlight::printToConsole(QString content)
 	ui.consoleWindow->setPlainText(current + content + '\n');
 }
 
-void PrecheckFlight::printToOutput(uint8_t* content, size_t size)
+void PrecheckFlight::printToOutput(uint8_t content, size_t size)
 {
 	QString current = ui.receiveComm->toPlainText();
 	QString console = ui.consoleWindow->toPlainText();
@@ -165,18 +166,12 @@ void PrecheckFlight::printToOutput(uint8_t* content, size_t size)
 	switch (machine->currentState()) {
 	case PrecheckStateMachine::GND_IDLE:
 		return;
-		ui.receiveComm->setPlainText(current + QString((char*)content));
+		ui.receiveComm->setPlainText(current + content);
 		break;
 	default:
-		for (int i = 0; i < size; i++)
-			if (content[i] == 0x78)
-				printToConsole("Found 4 Frame");
-			else if (content[i] == 0x81);
-				//printToConsole("Found Empty Frame");
 		emit(sendToWorker(content, size));
 		break;
 	}
-	
 }
 
 void PrecheckFlight::clearConsole()
