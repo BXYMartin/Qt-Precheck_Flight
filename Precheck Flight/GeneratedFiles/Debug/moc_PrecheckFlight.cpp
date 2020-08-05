@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PrecheckFlight_t {
-    QByteArrayData data[22];
-    char stringdata0[261];
+    QByteArrayData data[24];
+    char stringdata0[283];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,27 +42,29 @@ QT_MOC_LITERAL(7, 57, 8), // "testComm"
 QT_MOC_LITERAL(8, 66, 11), // "sendMessage"
 QT_MOC_LITERAL(9, 78, 9), // "beginTest"
 QT_MOC_LITERAL(10, 88, 7), // "endTest"
-QT_MOC_LITERAL(11, 96, 17), // "receiveFromWorker"
-QT_MOC_LITERAL(12, 114, 5), // "trail"
-QT_MOC_LITERAL(13, 120, 27), // "PrecheckStateMachine::State"
-QT_MOC_LITERAL(14, 148, 5), // "state"
-QT_MOC_LITERAL(15, 154, 28), // "PrecheckStateMachine::Status"
-QT_MOC_LITERAL(16, 183, 6), // "status"
-QT_MOC_LITERAL(17, 190, 7), // "message"
-QT_MOC_LITERAL(18, 198, 14), // "printToConsole"
-QT_MOC_LITERAL(19, 213, 13), // "printToOutput"
-QT_MOC_LITERAL(20, 227, 24), // "receiveDetailsFromWorker"
-QT_MOC_LITERAL(21, 252, 8) // "function"
+QT_MOC_LITERAL(11, 96, 8), // "openPort"
+QT_MOC_LITERAL(12, 105, 12), // "exportReport"
+QT_MOC_LITERAL(13, 118, 17), // "receiveFromWorker"
+QT_MOC_LITERAL(14, 136, 5), // "trail"
+QT_MOC_LITERAL(15, 142, 27), // "PrecheckStateMachine::State"
+QT_MOC_LITERAL(16, 170, 5), // "state"
+QT_MOC_LITERAL(17, 176, 28), // "PrecheckStateMachine::Status"
+QT_MOC_LITERAL(18, 205, 6), // "status"
+QT_MOC_LITERAL(19, 212, 7), // "message"
+QT_MOC_LITERAL(20, 220, 14), // "printToConsole"
+QT_MOC_LITERAL(21, 235, 13), // "printToOutput"
+QT_MOC_LITERAL(22, 249, 24), // "receiveDetailsFromWorker"
+QT_MOC_LITERAL(23, 274, 8) // "function"
 
     },
     "PrecheckFlight\0sendToWorker\0\0uint8_t\0"
     "content\0size_t\0size\0testComm\0sendMessage\0"
-    "beginTest\0endTest\0receiveFromWorker\0"
-    "trail\0PrecheckStateMachine::State\0"
-    "state\0PrecheckStateMachine::Status\0"
-    "status\0message\0printToConsole\0"
-    "printToOutput\0receiveDetailsFromWorker\0"
-    "function"
+    "beginTest\0endTest\0openPort\0exportReport\0"
+    "receiveFromWorker\0trail\0"
+    "PrecheckStateMachine::State\0state\0"
+    "PrecheckStateMachine::Status\0status\0"
+    "message\0printToConsole\0printToOutput\0"
+    "receiveDetailsFromWorker\0function"
 };
 #undef QT_MOC_LITERAL
 
@@ -72,7 +74,7 @@ static const uint qt_meta_data_PrecheckFlight[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -80,17 +82,19 @@ static const uint qt_meta_data_PrecheckFlight[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   59,    2, 0x06 /* Public */,
+       1,    2,   69,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       7,    0,   64,    2, 0x0a /* Public */,
-       8,    0,   65,    2, 0x0a /* Public */,
-       9,    0,   66,    2, 0x0a /* Public */,
-      10,    0,   67,    2, 0x0a /* Public */,
-      11,    4,   68,    2, 0x0a /* Public */,
-      18,    1,   77,    2, 0x0a /* Public */,
-      19,    2,   80,    2, 0x0a /* Public */,
-      20,    4,   85,    2, 0x0a /* Public */,
+       7,    0,   74,    2, 0x0a /* Public */,
+       8,    0,   75,    2, 0x0a /* Public */,
+       9,    0,   76,    2, 0x0a /* Public */,
+      10,    0,   77,    2, 0x0a /* Public */,
+      11,    0,   78,    2, 0x0a /* Public */,
+      12,    0,   79,    2, 0x0a /* Public */,
+      13,    4,   80,    2, 0x0a /* Public */,
+      20,    1,   89,    2, 0x0a /* Public */,
+      21,    2,   92,    2, 0x0a /* Public */,
+      22,    4,   97,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3, 0x80000000 | 5,    4,    6,
@@ -100,10 +104,12 @@ static const uint qt_meta_data_PrecheckFlight[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString, 0x80000000 | 13, 0x80000000 | 15, QMetaType::QString,   12,   14,   16,   17,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, 0x80000000 | 15, 0x80000000 | 17, QMetaType::QString,   14,   16,   18,   19,
     QMetaType::Void, QMetaType::QString,    4,
     QMetaType::Void, 0x80000000 | 3, 0x80000000 | 5,    4,    6,
-    QMetaType::Void, 0x80000000 | 13, 0x80000000 | 15, QMetaType::QString, QMetaType::QString,   14,   16,   21,   17,
+    QMetaType::Void, 0x80000000 | 15, 0x80000000 | 17, QMetaType::QString, QMetaType::QString,   16,   18,   23,   19,
 
        0        // eod
 };
@@ -119,10 +125,12 @@ void PrecheckFlight::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 2: _t->sendMessage(); break;
         case 3: _t->beginTest(); break;
         case 4: _t->endTest(); break;
-        case 5: _t->receiveFromWorker((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[2])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
-        case 6: _t->printToConsole((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 7: _t->printToOutput((*reinterpret_cast< uint8_t(*)>(_a[1])),(*reinterpret_cast< size_t(*)>(_a[2]))); break;
-        case 8: _t->receiveDetailsFromWorker((*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
+        case 5: _t->openPort(); break;
+        case 6: _t->exportReport(); break;
+        case 7: _t->receiveFromWorker((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[2])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
+        case 8: _t->printToConsole((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 9: _t->printToOutput((*reinterpret_cast< uint8_t(*)>(_a[1])),(*reinterpret_cast< size_t(*)>(_a[2]))); break;
+        case 10: _t->receiveDetailsFromWorker((*reinterpret_cast< PrecheckStateMachine::State(*)>(_a[1])),(*reinterpret_cast< PrecheckStateMachine::Status(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -166,13 +174,13 @@ int PrecheckFlight::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 11;
     }
     return _id;
 }

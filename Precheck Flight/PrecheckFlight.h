@@ -1,6 +1,13 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QtXml/QDomDocument>
+#include <QMessageBox>
+#include <QScrollBar>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QDateTime>
+#include <QAxObject>
 #include "ui_PrecheckFlight.h"
 #include "serial_port.h"
 #include "PrecheckStateMachine.h"
@@ -34,6 +41,8 @@ public slots:
 	void sendMessage();
 	void beginTest();
 	void endTest();
+	void openPort();
+	void exportReport();
 	void receiveFromWorker(QString trail, PrecheckStateMachine::State state, PrecheckStateMachine::Status status, QString message);
 	void printToConsole(QString content);
 	void printToOutput(uint8_t content, size_t size);
